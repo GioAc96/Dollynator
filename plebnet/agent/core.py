@@ -225,12 +225,33 @@ def attempt_purchase_vpn():
             logger.error("Error purchasing vpn", log_name)
 
 
+# TODO: if we update the qtable regularly, this needs to be changed
+def select_provider():
+    """
+    Check whether a provider is already selected, otherwise select one based on the Qtable.
+    """
+    if not config.get('chosen_provider'):
+        logger.log("No provider chosen yet", log_name)
+        providers = cloudomate_controller.get_vps_providers()
+        excluded_providers = config.get('excluded_providers')
+        for excluded_provider in excluded_providers:
+            providers.pop(excluded_provider)
+
+        if len(providers) >= 1:
+            # choice = cloudomate_controller.pick_provider(providers)
+            choice = qtable.choose_option(providers)
+            config.set('chosen_provider', choice)
+        logger.log("Provider chosen: %s" % str(config.get('chosen_provider')), log_name)
+        config.save()
+
+
+# TODO: what to do when purchase unsuccessful
 def attempt_purchase():
     """
     Check if enough money to buy a server, and if so, do so,
     """
-    (provider, option, _) = config.get('chosen_provider')
-    provider_offer_ID = str(provider).lower() + "_" + str(option).lower()
+    (provider, option) = config.get('chosen_provider')
+    # provider_offer_ID = str(provider).lower() + "_" + str(option).lower()
     if settings.wallets_testnet():
         domain = 'TBTC'
     else:
@@ -246,19 +267,45 @@ def attempt_purchase():
         success = cloudomate_controller.purchase_choice(config)
         if success == plebnet_settings.SUCCESS:
             # Update qtable yourself positively if you are successful
-            qtable.update_values(provider_offer_ID,True)
+            # qtable.update_values(provider_offer_ID, True)
+            # TODO: get a list of recieved q-values and the amount of current reward
+            qtable.update_qtable(get_q_values_through_gossipping(), get_reward_qlearning())
             # purchase VPN with same config if server allows for it
             if cloudomate_controller.get_vps_providers()[provider].TUN_TAP_SETTINGS:
                 attempt_purchase_vpn()
         elif success == plebnet_settings.FAILURE:
+            # TODO: what to do when purchase unsuccessful, probably the vps provider (state) needs to be punished
             # Update qtable provider negatively if not successful
-            qtable.update_values(provider_offer_ID,False)
+            # qtable.update_values(provider_offer_ID, False)
+            pass
 
         qtable.write_dictionary()
         config.increment_child_index()
         fake_generator.generate_child_account()
         config.set('chosen_provider', None)
         config.save()
+
+
+# TODO: need to keep track of MB tokens traded on the marked, total MB tokens;
+#  current amount in wallet + amount of MB tokens traded for Bitcoin
+def get_reward_qlearning():
+    """
+    Gets the reward for the qlearning algorithm, i.e. the amount of MB_tokens earned per day per price vps server?
+    :return: the amount of MB tokens earned per day per price current vps server
+    """
+    current_vpsprovider = qtable.self_state.provider
+    current_vpsoption = qtable.self_state.option
+    pass
+
+
+# TODO: implement this method
+def get_q_values_through_gossipping():
+    """
+    Gossip with neighbours to get a list of q-values to use for q-learning
+    :return: a list of q-values
+    """
+    current_state = qtable.self_state
+    pass
 
 
 def install_vps():
@@ -320,25 +367,6 @@ def vpn_is_running():
         settings.vpn_running("0")
         settings.vpn_pid(0)
         return False
-
-
-# TODO: dit moet naar agent.DNA, maar die is nu al te groot
-def select_provider():
-    """
-    Check whether a provider is already selected, otherwise select one based on the Qtable.
-    """
-    if not config.get('chosen_provider'):
-        logger.log("No provider chosen yet", log_name)
-        all_providers = cloudomate_controller.get_vps_providers()
-        excluded_providers = config.get('excluded_providers')
-        available_providers = list(set(all_providers.keys()) - set(excluded_providers))
-        providers = {k: all_providers[k] for k in all_providers.keys() if k in available_providers}
-
-        if len(providers) >= 1:
-            choice = cloudomate_controller.pick_provider(providers)
-            config.set('chosen_provider', choice)
-        logger.log("Provider chosen: %s" % str(config.get('chosen_provider')), log_name)
-        config.save()
 
 
 def save_all_currency():

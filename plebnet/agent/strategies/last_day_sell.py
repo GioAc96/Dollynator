@@ -37,7 +37,7 @@ class LastDaySell(Strategy):
         if not self.config.get('chosen_provider'):
             return
         wallet = wallet_controller.TriblerWallet(plebnet_settings.get_instance().wallets_testnet_created())
-        (provider, option, _) = self.config.get('chosen_provider')
+        (provider, option) = self.config.get('chosen_provider')
         btc_balance = satoshi_to_btc(wallet.get_balance())
         btc_price = max(self.get_replication_price(provider, option) * self.target_vps_count - btc_balance, 0)
         self.place_offer(amount_mb, btc_price, timeout, self.config)

@@ -108,42 +108,42 @@ def options(provider):
 def get_network_fee():
     return wallet_util.get_network_fee()
 
+# def pick_provider(providers):
+#     """
+#     This method picks a provider based on the DNA o the agent.
+#     :param providers:
+#     :return:
+#     """
+#     from plebnet.agent.qtable import QTable
+#
+#     qtable = QTable()
+#     qtable.read_dictionary(providers)
+#     chosen_option = qtable.choose_option(providers)
+#
+#     # NOT USED! -> remove from cloudomate controller
+#     gateway = get_vps_providers()[chosen_option["provider_name"]].get_gateway()
+#     btc_price = gateway.estimate_price(wallet_util.get_price(chosen_option["price"], chosen_option["currency"]))
+#
+#     return chosen_option["provider_name"], chosen_option["option_name"], btc_price
 
-def pick_provider(providers):
-    """
-    This method picks a provider based on the DNA o the agent.
-    :param providers:
-    :return:
-    """
-    from plebnet.agent.qtable import QTable
 
-    qtable = QTable()
-    qtable.read_dictionary(providers)
-    chosen_option = qtable.choose_option(providers)
-
-    gateway = get_vps_providers()[chosen_option["provider_name"]].get_gateway()
-    btc_price = gateway.estimate_price(wallet_util.get_price(chosen_option["price"], chosen_option["currency"]))
-
-    return chosen_option["provider_name"], chosen_option["option_name"], btc_price
-
-
-def pick_option(provider):
-    """
-    Pick most favorable option at a provider. For now pick the cheapest option.
-    :param provider: The chosen provider
-    :return: (option, price, currency)
-    """
-    vps_options = options(cloudomate_providers['vps'][provider])
-    if len(vps_options) == 0:
-        return
-
-    cheapest_option = 0
-    for item in range(len(vps_options)):
-        if vps_options[item].price < vps_options[cheapest_option].price:
-            cheapest_option = item
-
-    logger.log("cheapest option: %s" % str(vps_options[cheapest_option]))
-    return cheapest_option, vps_options[cheapest_option].price, 'USD'
+# def pick_option(provider):
+#     """
+#     Pick most favorable option at a provider. For now pick the cheapest option.
+#     :param provider: The chosen provider
+#     :return: (option, price, currency)
+#     """
+#     vps_options = options(cloudomate_providers['vps'][provider])
+#     if len(vps_options) == 0:
+#         return
+#
+#     cheapest_option = 0
+#     for item in range(len(vps_options)):
+#         if vps_options[item].price < vps_options[cheapest_option].price:
+#             cheapest_option = item
+#
+#     logger.log("cheapest option: %s" % str(vps_options[cheapest_option]))
+#     return cheapest_option, vps_options[cheapest_option].price, 'USD'
 
 
 def calculate_price(provider, option):
@@ -220,12 +220,12 @@ def purchase_choice(config):
     :return: plebnet_settings errorcode
     """
 
-    (provider, option, _) = config.get('chosen_provider')
+    (provider, option) = config.get('chosen_provider')
     provider_instance = cloudomate_providers['vps'][provider](child_account())
 
     wallet = TriblerWallet(plebnet_settings.get_instance().wallets_testnet_created())
 
-    vps_option = get_vps_option(provider,option)
+    vps_option = get_vps_option(provider, option)
     try:
         transaction_hash = provider_instance.purchase(wallet, vps_option)
     except:
