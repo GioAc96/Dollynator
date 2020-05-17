@@ -66,8 +66,8 @@ class QTable:
         tree = self.tree + "." + str(child_index)
         dictionary = {
             "qtable": self.qtable,
-            "alpha": self.alphatable,
-            "beta": self.betatable,
+            "alphatable": self.alphatable,
+            "betatable": self.betatable,
             "providers_offers": self.providers_offers,
             "self_state": next_state,
             "transaction_hash": transaction_hash,
@@ -88,8 +88,8 @@ class QTable:
         filename = os.path.join(config_dir, 'QTable.json')
         to_save_var = {
             "qtable": self.qtable,
-            "alpha": self.alphatable,
-            "beta": self.betatable,
+            "alphatable": self.alphatable,
+            "betatable": self.betatable,
             "providers_offers": self.providers_offers,
             "self_state": self.self_state,
             "tree": self.tree
@@ -120,8 +120,8 @@ class QTable:
                 data_encoded = json.load(json_file)
                 data = jsonpickle.decode(data_encoded)
                 self.qtable = data['qtable']
-                self.alphatable = data['alpha']
-                self.betatable = data['beta']
+                self.alphatable = data['alphatable']
+                self.betatable = data['betatable']
                 self.providers_offers = data['providers_offers']
                 self.self_state = data['self_state']
                 self.tree = data['tree']
@@ -159,6 +159,10 @@ class QTable:
     @staticmethod
     def get_ID(provider_offer):
         return str(provider_offer.provider_name).lower() + "_" + str(provider_offer.name).lower()
+
+    def set_self_state(self, self_state):
+        self.self_state = self_state
+        self.write_dictionary()
 
     # def get_ID_from_state(self):
     #     return str(self.self_state.provider).lower() + "_" + str(self.self_state.option).lower()

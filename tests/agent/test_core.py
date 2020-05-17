@@ -19,6 +19,7 @@ import plebnet.agent.core as Core
 import subprocess
 import os
 import cloudomate.hoster.vps.blueangelhost as blueAngel
+from plebnet.agent.qtable import QTable
 
 
 class TestCore(unittest.TestCase):
@@ -97,7 +98,8 @@ class TestCore(unittest.TestCase):
         logger.log = self.logger
         tribler_controller.start = self.start
 
-    def test_setup(self):
+    @mock.patch.object(QTable, "create_initial_tree")
+    def test_setup(self, mock):
         self.logger = logger.log
         self.provider = cloudomate_controller.get_vps_providers
         self.settings = plebnet_settings.Init.wallets_testnet
@@ -125,6 +127,7 @@ class TestCore(unittest.TestCase):
         irc_handler.start_irc_client = MagicMock()
         logger.success = MagicMock()
         plebnet_settings.Init.tribler_exitnode = MagicMock()
+        mock.return_value = "plebbot"
 
         Core.setup(args)
         logger.success.assert_called_once()
@@ -209,12 +212,12 @@ class TestCore(unittest.TestCase):
         self.qtable = QTable()
         self.providers = cloudomate_controller.get_vps_providers()
         providers = cloudomate_controller.get_vps_providers()
-        self.qtable.init_qtable_and_environment(providers)
+        self.qtable.init_qtable(providers)
         self.qtable.set_self_state(VPSState("blueangelhost", "Basic Plan"))
 
         logger.log = MagicMock()
         plebnet_settings.Init.wallets_testnet = MagicMock(return_value=False)
-        PlebNetConfig.get = MagicMock(return_value=['blueangelhost', 'Basic Plan', 0])
+        PlebNetConfig.get = MagicMock(return_value=['blueangelhost', 'Basic Plan'])
         market_controller.get_balance = MagicMock(return_value=100000000)
 
         Core.qtable = self.qtable

@@ -300,7 +300,7 @@ class TestSimpleMovingAverage(unittest.TestCase):
     def test_create_offer_with_provider(self):
         amount_mb = 1
         self.strategy.place_offer = MagicMock()
-        self.strategy.config.get = MagicMock(return_value=('prov', 'opt', 'test'))
+        self.strategy.config.get = MagicMock(return_value=('prov', 'opt'))
 
         self.strategy.create_offer(amount_mb, plebnet_settings.TIME_IN_HOUR)
         self.strategy.place_offer.assert_called_once()

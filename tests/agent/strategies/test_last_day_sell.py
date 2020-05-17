@@ -79,7 +79,7 @@ class TestLastDaySell(unittest.TestCase):
 
         self.strategy.place_offer = MagicMock()
         self.strategy.get_replication_price = MagicMock(return_value=3)
-        self.strategy.config.get = MagicMock(return_value=('prov', 'opt', 'test'))
+        self.strategy.config.get = MagicMock(return_value=('prov', 'opt'))
 
         self.strategy.create_offer(amount_mb, plebnet_settings.TIME_IN_HOUR)
         self.strategy.place_offer.assert_called_once()

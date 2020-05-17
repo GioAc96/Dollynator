@@ -125,8 +125,8 @@ def get_network_fee():
 #     btc_price = gateway.estimate_price(wallet_util.get_price(chosen_option["price"], chosen_option["currency"]))
 #
 #     return chosen_option["provider_name"], chosen_option["option_name"], btc_price
-
-
+#
+#
 # def pick_option(provider):
 #     """
 #     Pick most favorable option at a provider. For now pick the cheapest option.
