@@ -132,7 +132,8 @@ then
     echo "default-keyring=keyrings.alt.file.PlaintextKeyring" >> $KRCFG
 fi
 
-[ ! -d "PlebNet" ] && git clone -b $BRANCH --recurse-submodules https://github.com/Tribler/PlebNet
+[ ! -d "PlebNet" ] && git clone -b $BRANCH --recurse-submodules https://github.com/GioAc96/Dollynator
+mv Dollynator PlebNet
 
 # when branch is given, this create-child.sh's default branch value will be updated
 #   this is because the child's cloned repo also needs these values updated
@@ -145,8 +146,11 @@ pip3 install ./cloudomate
 
 # Install tribler
 pip3 install pony
-pip3 install ./tribler
-cd ..
+#pip3 install ./tribler # no setup.py anymore in tribler
+(echo "export PYTHONPATH=$PYTHONPATH:$HOME/PlebNet/tribler/src/pyipv8:$HOME/PlebNet/tribler/src/anydex:$HOME/PlebNet/tribler/src/tribler-common:$HOME/PlebNet/tribler/src/tribler-core:$HOME/PlebNet/tribler/src/tribler-gui" | tee -a ~/.bashrc) && source ~/.bashrc
+cd tribler/src
+pip3 install -r requirements.txt
+cd ../../..
 
 # Install bitcoinlib
 # pip install bitcoinlib==0.4.4
@@ -154,9 +158,11 @@ git clone https://github.com/1200wd/bitcoinlib.git
 pip3 install ./bitcoinlib
 
 # Install electrum as it is required by cloudomate and not included in tribler anymore
-git clone -b 2.9.x https://github.com/spesmilo/electrum.git
-cd electrum
-python3 setup.py install
+#git clone -b 2.9.x https://github.com/spesmilo/electrum.git
+#cd electrum
+#python3 setup.py install
+wget https://download.electrum.org/3.3.8/Electrum-3.3.8.tar.gz
+python3 -m pip install --user Electrum-3.3.8.tar.gz[fast]
 sudo apt-get -y install protobuf-compiler
 protoc --proto_path=lib/ --python_out=lib/ lib/paymentrequest.proto
 
