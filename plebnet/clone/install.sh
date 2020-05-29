@@ -37,12 +37,22 @@ apt-get update
 # Requiring manual configuration after installation
 # && apt-get -y upgrade
 
-apt-get install -y python
+# apt-get install -y python
+add-apt-repository ppa:jonathonf/python-3.6
+apt-get update
+apt-get install -y python3.6
+apt-get install -y python3.6-dev
+apt-get install -y python3.6-venv
+wget https://bootstrap.pypa.io/get-pip.py
+python3.6 get-pip.py
+# python3.6 -> python3
+ln -s /usr/bin/python3.6 /usr/local/bin/python3
+ln -s /usr/local/bin/pip /usr/local/bin/pip3
 
 # Reinstall pip
-apt-get remove --purge -y python-pip
-wget https://bootstrap.pypa.io/get-pip.py
-python3 get-pip.py
+# apt-get remove --purge -y python-pip
+# wget https://bootstrap.pypa.io/get-pip.py
+# python3 get-pip.py
 
 pip3 install -U wheel setuptools
 
@@ -161,10 +171,14 @@ pip3 install ./bitcoinlib
 #git clone -b 2.9.x https://github.com/spesmilo/electrum.git
 #cd electrum
 #python3 setup.py install
+pip3 install pyqt5
 wget https://download.electrum.org/3.3.8/Electrum-3.3.8.tar.gz
+pip3 install setuptools
 python3 -m pip install --user Electrum-3.3.8.tar.gz[fast]
-sudo apt-get -y install protobuf-compiler
-protoc --proto_path=lib/ --python_out=lib/ lib/paymentrequest.proto
+# sudo apt-get -y install protobuf-compiler
+# protoc --proto_path=lib/ --python_out=lib/ lib/paymentrequest.proto
+
+apt-get install -y firefox
 
 cd /root
 
