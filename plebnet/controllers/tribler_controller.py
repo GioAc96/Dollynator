@@ -44,7 +44,7 @@ def start():
     :return: boolean representing the success of starting Tribler
     """
     env = os.environ.copy()
-    env['PYTHONPATH'] = os.path.join(setup.plebnet_home(), 'plebnet')
+    # env['PYTHONPATH'] = os.path.join(setup.plebnet_home(), 'plebnet')itch 
 
     command = ['twistd', '--pidfile='+setup.tribler_pid(), 'plebnet', '-p', '8085']
 
