@@ -14,6 +14,7 @@ from plebnet.settings import plebnet_settings as setup
 from plebnet.utilities import logger
 
 
+# TODO: DONE
 def install_available_servers(config, qtable):
     """
     This function checks if any of the bought servers are ready to be installed and installs
@@ -44,25 +45,25 @@ def install_available_servers(config, qtable):
 
         if is_valid_ip(ip):
             # VPN configuration, enable tun/tap settings
-            if provider_class.TUN_TAP_SETTINGS:
-                tun_success = provider_class(cloudomate_controller.child_account(child_index)).enable_tun_tap()
-                logger.log("Enabling %s tun/tap: %s"%(provider, tun_success))
-                if not cloudomate_controller.save_info_vpn(child_index):
-                    logger.log("VPN not ready yet, can't save ovpn config")
-                    # continue
+            # if provider_class.TUN_TAP_SETTINGS:
+            #     tun_success = provider_class(cloudomate_controller.child_account(child_index)).enable_tun_tap()
+            #     logger.log("Enabling %s tun/tap: %s"%(provider, tun_success))
+            #     if not cloudomate_controller.save_info_vpn(child_index):
+            #         logger.log("VPN not ready yet, can't save ovpn config")
+            #         # continue
 
             logger.log("Installing child #%s on %s with ip %s" % (child_index, provider, str(ip)))
 
             account_settings = cloudomate_controller.child_account(child_index)
             rootpw = account_settings.get('server', 'root_password')
 
-            try:
-                provider_class(cloudomate_controller.child_account(child_index)).change_root_password(rootpw)
-            except Exception as e:
-                logger.error("Cannot change root password: %s" % str(e), "install_available_servers")
-                continue
+            # try:
+            #     provider_class(cloudomate_controller.child_account(child_index)).change_root_password(rootpw)
+            # except Exception as e:
+            #     logger.error("Cannot change root password: %s" % str(e), "install_available_servers")
+            #     continue
 
-            time.sleep(5)
+            # time.sleep(5)
 
             qtable.create_child_qtable(provider, option, transaction_hash, child_index)
 
@@ -117,6 +118,7 @@ def check_access(ip, rootpw):
     return is_valid_ip(ip) and check == 0
 
 
+# TODO: DONE
 def _install_server(ip, rootpw, vpn_child_index=None, testnet=False):
     """
     This function starts the actual installation routine.
@@ -131,29 +133,29 @@ def _install_server(ip, rootpw, vpn_child_index=None, testnet=False):
     home = settings.plebnet_home()
     script_path = os.path.join(home, "plebnet/clone/create-child.sh")
     logger.log('tot_path: %s' % script_path)
-    branch = "develop"
+    branch = "vps_demo"
 
     command = ["bash", script_path, "-i", ip.strip(), "-p", rootpw.strip(), "-b", branch]
 
     # additional VPN arguments
-    if vpn_child_index is not None:
-        prefix = settings.vpn_child_prefix()
-
-        dir = os.path.expanduser(settings.vpn_config_path())
-        
-        # vpn credentials: ~/child_INT_credentials.conf
-        credentials = os.path.join(dir, prefix + str(vpn_child_index) + settings.vpn_credentials_name())
-        # vpn credentials destination: own_config.ovpn
-        dest_credentials = settings.vpn_own_prefix() + settings.vpn_credentials_name()
-
-        # vpn config: ~/child_INT_config.ovpn
-        ovpn = os.path.join(dir, prefix + str(vpn_child_index) + settings.vpn_config_name())
-        # vpn config destination: own_credentials.conf
-        dest_config = settings.vpn_own_prefix() + settings.vpn_config_name()
-
-        # the current child config is given as arguments, the destination is so that the
-        # agent knows it's its own configuration, and not a child's config.
-        command += ["-conf", ovpn, dest_config, "-cred", credentials, dest_credentials]
+    # if vpn_child_index is not None:
+    #     prefix = settings.vpn_child_prefix()
+    #
+    #     dir = os.path.expanduser(settings.vpn_config_path())
+    #
+    #     # vpn credentials: ~/child_INT_credentials.conf
+    #     credentials = os.path.join(dir, prefix + str(vpn_child_index) + settings.vpn_credentials_name())
+    #     # vpn credentials destination: own_config.ovpn
+    #     dest_credentials = settings.vpn_own_prefix() + settings.vpn_credentials_name()
+    #
+    #     # vpn config: ~/child_INT_config.ovpn
+    #     ovpn = os.path.join(dir, prefix + str(vpn_child_index) + settings.vpn_config_name())
+    #     # vpn config destination: own_credentials.conf
+    #     dest_config = settings.vpn_own_prefix() + settings.vpn_config_name()
+    #
+    #     # the current child config is given as arguments, the destination is so that the
+    #     # agent knows it's its own configuration, and not a child's config.
+    #     command += ["-conf", ovpn, dest_config, "-cred", credentials, dest_credentials]
 
     if testnet:
         command.append("-t")

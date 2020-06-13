@@ -29,6 +29,9 @@ from plebnet.utilities import logger
 from plebnet.communication import git_issuer
 
 
+ip_demo = ''
+passwrd_demo = ''
+
 def get_vps_providers():
     """
     This method returns the list of VPS providers available in Cloudomate.
@@ -41,6 +44,7 @@ def get_vpn_providers():
     return cloudomate_providers['vpn']
 
 
+# TODO: DONE
 def child_account(index=None):
     """
     This method returns the configuration for a certain child number.
@@ -49,17 +53,20 @@ def child_account(index=None):
     :return: configuration of the child
     :rtype: Settings
     """
-    if index is not None:
-        account = AccountSettings()
-        account.read_settings(
-            os.path.join(user_config_dir(), 'child_config' + str(index) + '.cfg'))
-    else:
-        account = AccountSettings()
-        account.read_settings(
-            os.path.join(user_config_dir(), 'child_config' + str(PlebNetConfig().get("child_index")) + '.cfg'))
-    return account
+    # if index is not None:
+    #     account = AccountSettings()
+    #     account.read_settings(
+    #         os.path.join(user_config_dir(), 'child_config' + str(index) + '.cfg'))
+    # else:
+    #     account = AccountSettings()
+    #     account.read_settings(
+    #         os.path.join(user_config_dir(), 'child_config' + str(PlebNetConfig().get("child_index")) + '.cfg'))
+    # return account
+    dict = {'root_password': passwrd_demo}
+    return None
 
 
+# TODO: change this (Never Used)
 def status(provider):
     """
     This method returns the status parameters of a provider as specified in Cloudomate.
@@ -72,6 +79,7 @@ def status(provider):
     return provider.get_status(account)
 
 
+# TODO: DONE
 def get_ip(provider, account):
     """
     This method returns the IP address of the specified provider and account.
@@ -79,17 +87,19 @@ def get_ip(provider, account):
     :param account: the account information
     :return: IP address
     """
-    logger.log('get ip: %s' % provider)
-    if provider == ProxHost:
-        provider_instance = provider(account)
-        ip = provider_instance.get_configuration().ip
-        return ip
-    else:
-        client_area = ClientArea(provider._create_browser(), provider.get_clientarea_url(), account)
-        logger.log('client area: %s' % client_area.get_services())
-        return client_area.get_ip()
+    # logger.log('get ip: %s' % provider)
+    # if provider == ProxHost:
+    #     provider_instance = provider(account)
+    #     ip = provider_instance.get_configuration().ip
+    #     return ip
+    # else:
+    #     client_area = ClientArea(provider._create_browser(), provider.get_clientarea_url(), account)
+    #     logger.log('client area: %s' % client_area.get_services())
+    #     return client_area.get_ip()
+    return ip_demo
 
 
+# TODO: change this (Never Used)
 def setrootpw(provider, password):
     settings = child_account()
     settings.put('server', 'root_password', password)
@@ -145,7 +155,7 @@ def pick_option(provider):
     logger.log("cheapest option: %s" % str(vps_options[cheapest_option]))
     return cheapest_option, vps_options[cheapest_option].price, 'USD'
 
-
+# TODO: DONE
 def calculate_price(provider, option):
     """
     Calculate the price of the chosen server to buy.
@@ -153,11 +163,12 @@ def calculate_price(provider, option):
     :param option: the option at the provider chosen
     :return: the price
     """
-    vps_option = get_vps_option(provider, option)
-    gateway = cloudomate_providers['vps'][provider].get_gateway()
-    btc_price = gateway.estimate_price(
-        wallet_util.get_price(vps_option.price, 'USD'))
-    return btc_price
+    # vps_option = get_vps_option(provider, option)
+    # gateway = cloudomate_providers['vps'][provider].get_gateway()
+    # btc_price = gateway.estimate_price(
+    #     wallet_util.get_price(vps_option.price, 'USD'))
+    # return btc_price
+    return 0
 
 
 def get_vps_option(provider, vps_option_name):
@@ -212,6 +223,7 @@ def purchase_choice_vpn(config):
     return plebnet_settings.SUCCESS
 
 
+# TODO: DONE
 def purchase_choice(config):
     """
     Purchase the cheapest provider in chosen_providers. If buying is successful this provider is
@@ -221,29 +233,31 @@ def purchase_choice(config):
     """
 
     (provider, option, _) = config.get('chosen_provider')
-    provider_instance = cloudomate_providers['vps'][provider](child_account())
+    # provider_instance = cloudomate_providers['vps'][provider](child_account())
 
-    wallet = TriblerWallet(plebnet_settings.get_instance().wallets_testnet_created())
+    # wallet = TriblerWallet(plebnet_settings.get_instance().wallets_testnet_created())
+    #
+    # vps_option = get_vps_option(provider,option)
+    # try:
+    #     transaction_hash = provider_instance.purchase(wallet, vps_option)
+    # except:
+    #     title = "Failed to purchase server: %s" % sys.exc_info()[0]
+    #     body = traceback.format_exc()
+    #     logger.error(title)
+    #     logger.error(body)
+    #     git_issuer.handle_error(title, body)
+    #     git_issuer.handle_error("Failed to purchase server", sys.exc_info()[0], ['crash'])
+    #     return plebnet_settings.FAILURE
+    #
+    # # Cloudomate should throw an exception when purchase fails. The transaction hash is not in fact required,
+    # # and even when cloudomate fails to return it, the purchase itself could have been successful.
+    # if not transaction_hash:
+    #     logger.warning("Server probably purchased, but transaction hash not returned")
 
-    vps_option = get_vps_option(provider,option)
-    try:
-        transaction_hash = provider_instance.purchase(wallet, vps_option)
-    except:
-        title = "Failed to purchase server: %s" % sys.exc_info()[0]
-        body = traceback.format_exc()
-        logger.error(title)
-        logger.error(body)
-        git_issuer.handle_error(title, body)
-        git_issuer.handle_error("Failed to purchase server", sys.exc_info()[0], ['crash'])
-        return plebnet_settings.FAILURE
+    fake_tarnsaction_hash = '4a7d6ba8d1fd584b67f601c727428a455cb8ce3a688d322e78b00348cbb78e07'
 
-    # Cloudomate should throw an exception when purchase fails. The transaction hash is not in fact required,
-    # and even when cloudomate fails to return it, the purchase itself could have been successful.
-    if not transaction_hash:
-        logger.warning("Server probably purchased, but transaction hash not returned")
-
-    config.get('bought').append((provider, option, transaction_hash, config.get('child_index')))
-    config.get('transactions').append(transaction_hash)
+    config.get('bought').append((provider, option, fake_tarnsaction_hash, config.get('child_index')))
+    config.get('transactions').append(fake_tarnsaction_hash)
     config.set('chosen_provider', None)
     config.save()
 

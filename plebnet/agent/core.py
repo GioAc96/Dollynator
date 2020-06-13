@@ -249,7 +249,7 @@ def attempt_purchase_vpn():
         elif success == plebnet_settings.FAILURE:
             logger.error("Error purchasing vpn", log_name)
 
-
+# TODO: DONE
 def attempt_purchase():
     """
     Check if enough money to buy a server, and if so, do so,
@@ -266,7 +266,8 @@ def attempt_purchase():
     logger.log('Selected VPS: %s (%s), %s BTC' % (provider, option, vps_price), log_name)
     logger.log('Selected VPN: %s, %s BTC' % ("mullvad", vpn_price), log_name)
     logger.log("Balance: %s %s" % (btc_balance, domain), log_name)
-    if btc_balance >= vps_price + vpn_price:
+    # if btc_balance >= vps_price + vpn_price:
+    if True:  # maybe if it needs to earn a certain amount of MB tokens first
         logger.log("Before trying to purchase VPS share current QTable with other agents")
         qtable.share_qtable()
         logger.log("Try to buy a new server from %s" % provider, log_name)
@@ -276,8 +277,8 @@ def attempt_purchase():
             qtable.update_qtable(remote_tables, provider_offer_ID, True, get_reward_qlearning())
             # purchase VPN with same config if server allows for it
             # purchase VPN with same config if server allows for it
-            if cloudomate_controller.get_vps_providers()[provider].TUN_TAP_SETTINGS:
-                attempt_purchase_vpn()
+            # if cloudomate_controller.get_vps_providers()[provider].TUN_TAP_SETTINGS:
+            #     attempt_purchase_vpn()
         elif success == plebnet_settings.FAILURE:
             # Update qtable provider negatively if not successful
             qtable.update_qtable(remote_tables, provider_offer_ID, False, get_reward_qlearning())
