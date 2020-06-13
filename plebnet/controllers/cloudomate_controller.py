@@ -63,7 +63,7 @@ def child_account(index=None):
     #         os.path.join(user_config_dir(), 'child_config' + str(PlebNetConfig().get("child_index")) + '.cfg'))
     # return account
     dict = {'root_password': passwrd_demo}
-    return None
+    return dict
 
 
 # TODO: change this (Never Used)
