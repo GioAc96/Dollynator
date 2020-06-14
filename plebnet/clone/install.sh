@@ -222,10 +222,10 @@ ARGS=""
 echo "arguments: $ARGS"
 
 if [[ $TESTNET -eq 1 ]]; then
-    plebnet setup $ARGS >> plebnet.log 2>&1
+#    plebnet setup $ARGS >> plebnet.log 2>&1
     echo "Installed in testnet mode: TBTC bitcoin wallet used, no cron job checking - run \"plebnet check\" manually."
 else
-    plebnet setup $ARGS >> plebnet.log 2>&1
-    echo "*/1 * * * * root /usr/local/bin/plebnet check >> plebnet.log 2>&1" > /etc/cron.d/plebnet
+#    plebnet setup $ARGS >> plebnet.log 2>&1
+#    echo "*/1 * * * * root /usr/local/bin/plebnet check >> plebnet.log 2>&1" > /etc/cron.d/plebnet
     echo "Installed in normal mode: BTC bitcoin wallet used, cron job created, exit node is on"
 fi
