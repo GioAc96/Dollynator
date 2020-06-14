@@ -234,20 +234,21 @@ def attempt_purchase_vpn():
     Attempts to purchase a VPN, checks first if balance is sufficient
     The success message is stored to prevent further unecessary purchases.
     """
-    provider = settings.vpn_host()
-    if settings.wallets_testnet():
-        domain = 'TBTC'
-    else:
-        domain = 'BTC'
-    btc_balance = satoshi_to_btc(market_controller.get_balance(domain))
-    vpn_price = cloudomate_controller.calculate_price_vpn(provider)
-    if btc_balance >= vpn_price:
-        logger.log("Try to buy a new VPN from %s" % provider, log_name)
-        success = cloudomate_controller.purchase_choice_vpn(config)
-        if success == plebnet_settings.SUCCESS:
-            logger.success("Purchasing VPN succesful!", log_name)
-        elif success == plebnet_settings.FAILURE:
-            logger.error("Error purchasing vpn", log_name)
+    pass
+    # provider = settings.vpn_host()
+    # if settings.wallets_testnet():
+    #     domain = 'TBTC'
+    # else:
+    #     domain = 'BTC'
+    # btc_balance = satoshi_to_btc(market_controller.get_balance(domain))
+    # vpn_price = cloudomate_controller.calculate_price_vpn(provider)
+    # if btc_balance >= vpn_price:
+    #     logger.log("Try to buy a new VPN from %s" % provider, log_name)
+    #     success = cloudomate_controller.purchase_choice_vpn(config)
+    #     if success == plebnet_settings.SUCCESS:
+    #         logger.success("Purchasing VPN succesful!", log_name)
+    #     elif success == plebnet_settings.FAILURE:
+    #         logger.error("Error purchasing vpn", log_name)
 
 # TODO: DONE
 def attempt_purchase():
@@ -356,37 +357,37 @@ def install_vpn():
     Attempts to install the vpn using the credentials.conf and .ovpn configuration files
     :return: True if installing succeeded, otherwise it will raise an exception.
     """
-
-    logger.log("Installing VPN")
-
-    # configuring nameservers, if the server uses a local nameserver
-    # either 1.1.1.1/1.0.0.1 or 8.8.8.8/8.8.4.4 work
-    resolv = """nameserver 1.1.1.1
-    nameserver 1.0.0.1"""
-
-    with open(os.path.expanduser('/etc/resolv.conf'), 'w') as dnsfile:
-        dnsfile.write(resolv)
-    vpnconfig = os.path.join(os.path.expanduser(settings.vpn_config_path()),
-                             settings.vpn_own_prefix() + settings.vpn_config_name())
-    try_install = subprocess.Popen('openvpn --config ' + vpnconfig + ' --daemon',
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True,
-                                   cwd=os.path.expanduser('~/'))
-
-    result, error = try_install.communicate()
-    exitcode = try_install.wait()
-
-    time.sleep(30)
-
-    if exitcode != 0:
-        if error.decode('ascii') == "":
-            error = result
-        logger.log("ERROR installing VPN, Code: " + str(exitcode) + " - Message: " + error.decode('ascii'))
-        return False
-    else:
-        pid = str(try_install.pid)
-        settings.vpn_pid(pid)
-        settings.vpn_running("1")
-        return True
+    return False
+    # logger.log("Installing VPN")
+    #
+    # # configuring nameservers, if the server uses a local nameserver
+    # # either 1.1.1.1/1.0.0.1 or 8.8.8.8/8.8.4.4 work
+    # resolv = """nameserver 1.1.1.1
+    # nameserver 1.0.0.1"""
+    #
+    # with open(os.path.expanduser('/etc/resolv.conf'), 'w') as dnsfile:
+    #     dnsfile.write(resolv)
+    # vpnconfig = os.path.join(os.path.expanduser(settings.vpn_config_path()),
+    #                          settings.vpn_own_prefix() + settings.vpn_config_name())
+    # try_install = subprocess.Popen('openvpn --config ' + vpnconfig + ' --daemon',
+    #                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True,
+    #                                cwd=os.path.expanduser('~/'))
+    #
+    # result, error = try_install.communicate()
+    # exitcode = try_install.wait()
+    #
+    # time.sleep(30)
+    #
+    # if exitcode != 0:
+    #     if error.decode('ascii') == "":
+    #         error = result
+    #     logger.log("ERROR installing VPN, Code: " + str(exitcode) + " - Message: " + error.decode('ascii'))
+    #     return False
+    # else:
+    #     pid = str(try_install.pid)
+    #     settings.vpn_pid(pid)
+    #     settings.vpn_running("1")
+    #     return True
 
 
 def vpn_is_running():

@@ -181,11 +181,12 @@ def get_vps_option(provider, vps_option_name):
 
 def calculate_price_vpn(vpn_provider='mullvad'):
     # option is assumed to be the first one
-    vpn_option = options(get_vpn_providers()[vpn_provider])[0]
-    gateway = get_vpn_providers()[vpn_provider].get_gateway()
-    btc_price = gateway.estimate_price(
-        wallet_util.get_price(vpn_option.price, 'USD'))
-    return btc_price
+    return 0
+    # vpn_option = options(get_vpn_providers()[vpn_provider])[0]
+    # gateway = get_vpn_providers()[vpn_provider].get_gateway()
+    # btc_price = gateway.estimate_price(
+    #     wallet_util.get_price(vpn_option.price, 'USD'))
+    # return btc_price
 
 
 def purchase_choice_vpn(config):
