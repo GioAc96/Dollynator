@@ -16,11 +16,15 @@ from plebnet.utilities import logger
 log_name = "market_controller"
 
 
+#TODO: change everything back, when twisted plugin works
+
+
 def is_market_running():
     """
     Check if the Tribler market is running.
     :return: boolean
     """
+    # return True
     try:
         askslive = requests.head('http://localhost:8085/market/asks')
         bidslive = requests.head('http://localhost:8085/market/bids')
@@ -38,6 +42,7 @@ def get_balance(domain):
     :param domain: the wallet type BTC, TBTC or MB
     :return: the balance
     """
+    # return 0
     try:
         # TODO: Find out how to get balance using only confirmed transactions
         r = requests.get('http://localhost:8085/wallets/' + domain + '/balance')

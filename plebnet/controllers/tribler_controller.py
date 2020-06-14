@@ -76,32 +76,36 @@ def start():
 
 
 def get_uploaded():
-    try:
-        tu = requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['total_up']
-        tu = int(tu)/1024.0/1024.0
-        return tu
-    except ConnectionError:
-        return "Unable to retrieve amount of uploaded data"
+    return 0
+    # try:
+    #     tu = requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['total_up']
+    #     tu = int(tu)/1024.0/1024.0
+    #     return tu
+    # except ConnectionError:
+    #     return "Unable to retrieve amount of uploaded data"
 
 
 def get_helped_by():
-    try:
-        return requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['peers_that_helped_pk']
-    except ConnectionError:
-        return "Unable to retrieve amount of peers that helped this agent"
+    return "dfsljdfs"
+    # try:
+    #     return requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['peers_that_helped_pk']
+    # except ConnectionError:
+    #     return "Unable to retrieve amount of peers that helped this agent"
 
 
 def get_helped():
-    try:
-        return requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['peers_that_pk_helped']
-    except ConnectionError:
-        return "Unable to retrieve amount of peers helped by this agent"
+    return 0
+    # try:
+    #     return requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['peers_that_pk_helped']
+    # except ConnectionError:
+    #     return "Unable to retrieve amount of peers helped by this agent"
 
 
 def get_downloaded():
-    try:
-        td = requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['total_down']
-        td = int(td)/1024.0/1024.0
-        return td
-    except ConnectionError:
-        return "Unable to retrieve amount of downloaded data"
+    return 0
+    # try:
+    #     td = requests.get('http://localhost:8085/trustchain/statistics').json()['statistics']['total_down']
+    #     td = int(td)/1024.0/1024.0
+    #     return td
+    # except ConnectionError:
+    #     return "Unable to retrieve amount of downloaded data"
