@@ -156,7 +156,7 @@ def get_MB_balance(): return get_balance('MB')
 
 
 def get_transactions(type):
-    return ['djfskl', 'sfkasd']
+    return None
     # try:
     #     return requests.get('http://localhost:8085/wallets/' + type + '/transactions').json()['transactions']
     # except:
