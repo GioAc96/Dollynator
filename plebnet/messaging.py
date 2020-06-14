@@ -263,9 +263,13 @@ class MessageReceiver:
 
         self.kill_flag = False
 
-        threading.Thread(target=self._start_listening).start()
+        thread1 = threading.Thread(target=self._start_listening)
+        thread1.daemon = True
+        thread1.start()
 
-        threading.Thread(target=self._start_notifying).start()
+        thread2 = threading.Thread(target=self._start_notifying)
+        thread2.daemon = True
+        thread2.start()
 
     def register_consumer(self, channel: str, message_consumer: MessageConsumer) -> None:
         """
