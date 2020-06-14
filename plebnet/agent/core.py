@@ -144,8 +144,8 @@ def check():
         save_all_currency()
 
     # These need a matchmaker, otherwise agent will be stuck waiting.
-    # if market_controller.has_matchmakers():
-    #     strategies[plebnet_settings.get_instance().strategy_name()]().apply()
+    if market_controller.has_matchmakers():
+        strategies[plebnet_settings.get_instance().strategy_name()]().apply()
 
     install_vps()
 

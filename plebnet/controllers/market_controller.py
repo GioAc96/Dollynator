@@ -24,16 +24,16 @@ def is_market_running():
     Check if the Tribler market is running.
     :return: boolean
     """
-    # return True
-    try:
-        askslive = requests.head('http://localhost:8085/market/asks')
-        bidslive = requests.head('http://localhost:8085/market/bids')
-        if askslive.status_code & bidslive.status_code == 200:
-            return True
-        else:
-            return False
-    except ConnectionError:
-        return False
+    return True
+    # try:
+    #     askslive = requests.head('http://localhost:8085/market/asks')
+    #     bidslive = requests.head('http://localhost:8085/market/bids')
+    #     if askslive.status_code & bidslive.status_code == 200:
+    #         return True
+    #     else:
+    #         return False
+    # except ConnectionError:
+    #     return False
 
 
 def get_balance(domain):
@@ -42,14 +42,14 @@ def get_balance(domain):
     :param domain: the wallet type BTC, TBTC or MB
     :return: the balance
     """
-    # return 0
-    try:
-        # TODO: Find out how to get balance using only confirmed transactions
-        r = requests.get('http://localhost:8085/wallets/' + domain + '/balance')
-        balance = r.json()
-        return balance['balance']['available']
-    except ConnectionError:
-        return False
+    return 0
+    # try:
+    #     # TODO: Find out how to get balance using only confirmed transactions
+    #     r = requests.get('http://localhost:8085/wallets/' + domain + '/balance')
+    #     balance = r.json()
+    #     return balance['balance']['available']
+    # except ConnectionError:
+    #     return False
 
 
 def put_ask(first_asset_amount, first_asset_type, second_asset_amount, second_asset_type, timeout):
@@ -121,6 +121,7 @@ def has_matchmakers():
     Checks if there are any matchmakers.
     :return: boolean
     """
-    url = 'http://localhost:8085/market/matchmakers'
-    r = requests.get(url)
-    return r.json()['matchmakers'] != []
+    return True
+    # url = 'http://localhost:8085/market/matchmakers'
+    # r = requests.get(url)
+    # return r.json()['matchmakers'] != []
