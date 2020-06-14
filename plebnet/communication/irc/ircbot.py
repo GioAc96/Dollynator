@@ -61,6 +61,7 @@ class Create(object):
         self.add_response("general",      self.msg_general)
         self.add_response("helped",       self.msg_helped)
         self.add_response("helped_by",    self.msg_helped_by)
+        self.add_response("qtable",       self.msg_qtable())
 
         # start running the IRC server
         self.init_irc()
@@ -236,6 +237,11 @@ class Create(object):
             'exitnode': plebnet_settings.get_instance().tribler_exitnode()
         }
         self.send_msg("general: %s" % data)
+
+    def msg_qtable(self):
+        qtable = QTable()
+        qtable.read_dictionary()
+        self.send_msg("qtable: %s" % qtable.qtable)
 
 
 if __name__ == '__main__':
