@@ -55,7 +55,7 @@ def install_available_servers(config, qtable):
             logger.log("Installing child #%s on %s with ip %s" % (child_index, provider, str(ip)))
 
             account_settings = cloudomate_controller.child_account(child_index)
-            rootpw = account_settings.get('server', 'root_password')
+            rootpw = account_settings.get('root_password')
 
             # try:
             #     provider_class(cloudomate_controller.child_account(child_index)).change_root_password(rootpw)
