@@ -29,8 +29,8 @@ from plebnet.utilities import logger
 from plebnet.communication import git_issuer
 
 
-ip_demo = ''
-passwrd_demo = ''
+ip_demo = '161.35.88.170'
+passwrd_demo = 'FJKe8903jfdlei'
 
 def get_vps_providers():
     """

@@ -254,6 +254,7 @@ def attempt_purchase():
     """
     Check if enough money to buy a server, and if so, do so,
     """
+    print("trying to buy vps")
     (provider, option, _) = config.get('chosen_provider')
     provider_offer_ID = str(provider).lower() + "_" + str(option).lower()
     if settings.wallets_testnet():
