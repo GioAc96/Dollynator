@@ -129,8 +129,8 @@ def check():
         logger.error("!!! VPN is not installed, child may get banned !!!", "Plebnet Check")
 
     # Requires time to setup, continue in the next iteration.
-    if not check_tribler():
-        return
+    # if not check_tribler():
+    #     return
 
     check_irc()
 

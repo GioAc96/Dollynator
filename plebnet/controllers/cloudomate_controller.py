@@ -28,9 +28,9 @@ from plebnet.settings import plebnet_settings
 from plebnet.utilities import logger
 from plebnet.communication import git_issuer
 
-
 ip_demo = '68.183.105.115'
 passwrd_demo = 'FJKe8903jfdlei'
+
 
 def get_vps_providers():
     """
@@ -154,6 +154,7 @@ def pick_option(provider):
 
     logger.log("cheapest option: %s" % str(vps_options[cheapest_option]))
     return cheapest_option, vps_options[cheapest_option].price, 'USD'
+
 
 # TODO: DONE
 def calculate_price(provider, option):
