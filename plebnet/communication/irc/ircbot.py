@@ -19,6 +19,7 @@ from plebnet.communication import git_issuer
 from plebnet.controllers import wallet_controller, market_controller, tribler_controller
 from plebnet.utilities import logger
 from plebnet.settings import plebnet_settings
+import json
 
 
 class Create(object):
@@ -229,13 +230,15 @@ class Create(object):
     def msg_general(self):
         qtable = QTable()
         qtable.read_dictionary()
-        data = {
-            'host': qtable.self_state.provider,
-            'option': qtable.self_state.option,
-            'vpn': vpn_is_running(),
-            'tree': qtable.tree,
-            'exitnode': plebnet_settings.get_instance().tribler_exitnode()
-        }
+        # data = {
+        #     'host': qtable.self_state.provider,
+        #     'option': qtable.self_state.option,
+        #     'vpn': vpn_is_running(),
+        #     'tree': qtable.tree,
+        #     'exitnode': plebnet_settings.get_instance().tribler_exitnode()
+        #     'qtable' : qtable.qtable
+        # }
+        data = json.dump(qtable.qtable)
         self.send_msg("general: %s" % data)
 
     # def msg_qtable(self):
