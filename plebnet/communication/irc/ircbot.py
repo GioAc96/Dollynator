@@ -277,7 +277,9 @@ class Create(object):
         #, because IRC only supports up until 512 characters per message
         self.send_msg(formatt.format(*headers))
         # message = formatt.format(*headers)
+        time.sleep(3)
         for line in table:
+            time.sleep(3)
             # message += formatt.format(*line)
             self.send_msg(formatt.format(*line))
         # self.send_msg(message)
