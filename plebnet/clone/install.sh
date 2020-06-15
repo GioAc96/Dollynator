@@ -223,7 +223,7 @@ ARGS=""
 echo "arguments: $ARGS"
 
 if [[ $TESTNET -eq 1 ]]; then
-    plebnet setup "$ARGS" >> plebnet.log 2>&1
+#    plebnet setup "$ARGS" >> plebnet.log 2>&1
     echo "Installed in testnet mode: TBTC bitcoin wallet used, no cron job checking - run \"plebnet check\" manually."
 else
     plebnet setup "$ARGS" >> plebnet.log 2>&1
