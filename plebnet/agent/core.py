@@ -269,7 +269,7 @@ def attempt_purchase():
     logger.log('Selected VPN: %s, %s BTC' % ("mullvad", vpn_price), log_name)
     logger.log("Balance: %s %s" % (btc_balance, domain), log_name)
     # if btc_balance >= vps_price + vpn_price:
-    if True:  # maybe if it needs to earn a certain amount of MB tokens first
+    if not config.get('transactions'):  # only do the buy one vps for demo purposes
         logger.log("Before trying to purchase VPS share current QTable with other agents")
         qtable.share_qtable()
         logger.log("Try to buy a new server from %s" % provider, log_name)
