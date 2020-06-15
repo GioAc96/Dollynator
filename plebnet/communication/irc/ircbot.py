@@ -230,15 +230,17 @@ class Create(object):
     def msg_general(self):
         qtable = QTable()
         qtable.read_dictionary()
+        # data = {
+        #     'host': qtable.self_state.provider,
+        #     'option': qtable.self_state.option,
+        #     'vpn': vpn_is_running(),
+        #     'tree': qtable.tree,
+        #     'exitnode': plebnet_settings.get_instance().tribler_exitnode()
+        #     'qtable': qtable.qtable
+        # }
         data = {
-            'host': qtable.self_state.provider,
-            'option': qtable.self_state.option,
-            'vpn': vpn_is_running(),
-            'tree': qtable.tree,
-            'exitnode': plebnet_settings.get_instance().tribler_exitnode()
-            'qtable' : qtable.qtable
+            'qtable': json.dump(qtable.qtable)
         }
-        # data = json.dump(qtable.qtable)
         self.send_msg("general: %s" % data)
 
     # def msg_qtable(self):
