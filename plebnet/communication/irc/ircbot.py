@@ -105,7 +105,7 @@ class Create(object):
 
     def keep_running(self, buffer):
         try:
-            buffer += self.irc.recv(8192).decode()
+            buffer += self.irc.recv(2048).decode()
             lines = str.split(buffer, "\r\n")
             buffer = lines.pop()
 
