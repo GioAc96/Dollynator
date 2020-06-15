@@ -236,7 +236,6 @@ class Create(object):
             'vpn': vpn_is_running(),
             'tree': qtable.tree,
             'exitnode': plebnet_settings.get_instance().tribler_exitnode()
-            'qtable' : qtable.qtable
         }
         # data = json.dump(qtable.qtable)
         self.send_msg("general: %s" % data)
