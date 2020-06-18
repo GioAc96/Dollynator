@@ -36,7 +36,7 @@ VPN_CONFIG=""
 VPN_CREDENTIALS=""
 DEST_VPN_CONFIG=""
 DEST_VPN_CREDENTIALS=""
-BRANCH="vps_demo"
+BRANCH="vps_demo_merge_tribler_back_in"
 TESTNET=0
 EXITNODE=0
 

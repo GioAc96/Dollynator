@@ -57,7 +57,7 @@ class LearningConsumer(messaging.MessageConsumer):
 learning_consumer = LearningConsumer()
 
 TIME_ALIVE = 30 * plebnet_settings.TIME_IN_DAY
-average_MB_tokens_per_day = 10000  # estimate from previous reports
+average_MB_tokens_per_day = 1000  # estimate from previous reports
 
 
 def setup(args):
@@ -129,8 +129,8 @@ def check():
         logger.error("!!! VPN is not installed, child may get banned !!!", "Plebnet Check")
 
     # Requires time to setup, continue in the next iteration.
-    # if not check_tribler():
-    #     return
+    if not check_tribler():
+        return
 
     check_irc()
 
@@ -269,7 +269,7 @@ def attempt_purchase():
     logger.log('Selected VPN: %s, %s BTC' % ("mullvad", vpn_price), log_name)
     logger.log("Balance: %s %s" % (btc_balance, domain), log_name)
     # if btc_balance >= vps_price + vpn_price:
-    if not config.get('transactions'):  # only do the buy one vps for demo purposes
+    if (not config.get('transactions')) and (wallet_controller.get_MB_balance() > 10):  # only do the buy one vps for demo purposes
         logger.log("Before trying to purchase VPS share current QTable with other agents")
         qtable.share_qtable()
         logger.log("Try to buy a new server from %s" % provider, log_name)
