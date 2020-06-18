@@ -265,10 +265,10 @@ class Create(object):
 
         # get the format string used for each line in the table
         formatt = "{:<%i} "
-        max_len = 0
+        max_len = 20
         for vps_service in headers[1:]:
             max_len = max(len(vps_service) + 2, max_len)
-            formatt += "{:<%i} " % (len(vps_service) + 2)
+            formatt += "{:<%i} " % max(20, (len(vps_service) + 2))
         formatt = formatt % max_len
         formatt = formatt[:-1]
         headers[0] *= (max_len - 2)
