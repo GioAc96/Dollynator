@@ -22,33 +22,32 @@ def create_wallet(wallet_type):
     :param wallet_type: BTC or TBTC
     :return: boolean representing success
     """
-    return True
-    # if wallet_type == 'TBTC' and settings.wallets_testnet_created():
-    #     logger.log("Testnet wallet already created", "create_wallet")
-    #     return True
-    # if wallet_type != 'BTC' and wallet_type != 'TBTC':
-    #     logger.log("Called unknown wallet type", "create_wallet")
-    #     return False
-    # start_market = marketcontroller.is_market_running()
-    # if not start_market:
-    #     logger.log("The marketplace can't be started", "create_wallet")
-    #     return False
-    # try:
-    #     data = {'password': settings.wallets_password()}
-    #     r = requests.put('http://localhost:8085/wallets/' + wallet_type, data=data)
-    #     message = r.json()
-    #     if 'created' in message:
-    #         logger.log("Wallet created successfully", "create_wallet")
-    #         return True
-    #     elif message['error'] == 'this wallet already exists':
-    #         logger.log("The wallet was already created", "create_wallet")
-    #         return True
-    #     else:
-    #         logger.log(str(message['error']), "create_wallet")
-    #         return False
-    # except ConnectionError:
-    #     logger.log("connection error while creating a wallet", "create_wallet")
-    #     return False
+    if wallet_type == 'TBTC' and settings.wallets_testnet_created():
+        logger.log("Testnet wallet already created", "create_wallet")
+        return True
+    if wallet_type != 'BTC' and wallet_type != 'TBTC':
+        logger.log("Called unknown wallet type", "create_wallet")
+        return False
+    start_market = marketcontroller.is_market_running()
+    if not start_market:
+        logger.log("The marketplace can't be started", "create_wallet")
+        return False
+    try:
+        data = {'password': settings.wallets_password()}
+        r = requests.put('http://localhost:8085/wallets/' + wallet_type, data=data)
+        message = r.json()
+        if 'created' in message:
+            logger.log("Wallet created successfully", "create_wallet")
+            return True
+        elif message['error'] == 'this wallet already exists':
+            logger.log("The wallet was already created", "create_wallet")
+            return True
+        else:
+            logger.log(str(message['error']), "create_wallet")
+            return False
+    except ConnectionError:
+        logger.log("connection error while creating a wallet", "create_wallet")
+        return False
 
 
 class TriblerWallet(object):
@@ -69,10 +68,9 @@ class TriblerWallet(object):
         Returns the balance of the current wallet.
         :return: the balance
         """
-        return 0
-        # if coin is None:
-        #     coin = self.coin
-        # return marketcontroller.get_balance(coin)
+        if coin is None:
+            coin = self.coin
+        return marketcontroller.get_balance(coin)
 
     def pay(self, address, amount, fee=None, coin=None):
         """
@@ -122,11 +120,10 @@ class TriblerWallet(object):
 
 
 def get_wallet_address(type):
-    return 'dfjalwefasdf'
-    # try:
-    #     return requests.get('http://localhost:8085/wallets').json()['wallets'][type]['address']
-    # except:
-    #     return "No %s wallet found" % type
+    try:
+        return requests.get('http://localhost:8085/wallets').json()['wallets'][type]['address']
+    except:
+        return "No %s wallet found" % type
 
 
 def get_TBTC_wallet(): return get_wallet_address('TBTC')
@@ -139,11 +136,10 @@ def get_MB_wallet(): return get_wallet_address('MB')
 
 
 def get_balance(type):
-    return 0
-    # try:
-    #     return requests.get('http://localhost:8085/wallets').json()['wallets'][type]['balance']['available']
-    # except:
-    #     return "No %s wallet found" % type
+    try:
+        return requests.get('http://localhost:8085/wallets').json()['wallets'][type]['balance']['available']
+    except:
+        return "No %s wallet found" % type
 
 
 def get_TBTC_balance(): return get_balance('TBTC')
@@ -156,11 +152,10 @@ def get_MB_balance(): return get_balance('MB')
 
 
 def get_transactions(type):
-    return []
-    # try:
-    #     return requests.get('http://localhost:8085/wallets/' + type + '/transactions').json()['transactions']
-    # except:
-    #     return "No %s wallet found" % type
+    try:
+        return requests.get('http://localhost:8085/wallets/' + type + '/transactions').json()['transactions']
+    except:
+        return "No %s wallet found" % type
 
 
 def get_TBTC_transactions(): return get_transactions('TBTC')
@@ -173,11 +168,10 @@ def get_MB_transactions(): return get_transactions('MB')
 
 
 def get_balance_pending(type):
-    return 0
-    # try:
-    #     return requests.get('http://localhost:8085/wallets/' + type + '/balance').json()['balance']['pending']
-    # except:
-    #     return "No %s wallet found" % type
+    try:
+        return requests.get('http://localhost:8085/wallets/' + type + '/balance').json()['balance']['pending']
+    except:
+        return "No %s wallet found" % type
 
 
 def get_TBTC_balance_pending(): return get_balance_pending('TBTC')
